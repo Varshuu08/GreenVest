@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "id": "greenvest-scenario-model-v1",
+    "kind": "scenario-assumption",
+    "horizonYears": 10,
+    "description": "Canonical internal scenario-model configuration. This is not an agricultural dataset, field measurement, carbon methodology, irrigation schedule, or market-price source."
+  },
+  "controlledVocabulary": {
+    "soils": ["Sandy Loam", "Clay", "Silty", "Laterite", "Alluvial", "Black Cotton"],
+    "rainfallScenarios": [
+      { "label": "Low rainfall scenario (<600mm)", "key": "low", "representativeAnnualMm": 550 },
+      { "label": "Moderate rainfall scenario (600–1200mm)", "key": "moderate", "representativeAnnualMm": 900 },
+      { "label": "High rainfall scenario (>1200mm)", "key": "high", "representativeAnnualMm": 1500 }
+    ],
+    "waterAvailabilityScenarios": [
+      { "label": "Limited", "key": "limited", "availabilityIndex": 62 },
+      { "label": "Seasonal", "key": "seasonal", "availabilityIndex": 78 },
+      { "label": "Adequate", "key": "adequate", "availabilityIndex": 108 },
+      { "label": "Abundant", "key": "abundant", "availabilityIndex": 130 }
+    ]
+  },
+  "scoring": {
+    "soilMismatchSuitability": 0.55,
+    "rainfallSuitabilityFloor": 0.35,
+    "rainfallDistanceScaleMm": 1400,
+    "waterIndexScale": 1.62,
+    "carbonHorizonFactor": 0.955,
+    "minimumAreaScale": 0.15,
+    "budgetConstraint": { "scaleRiskThreshold": 0.6, "riskAdjustment": 14 },
+    "carbonScore": { "normalization": 680, "multiplier": 0.82, "offset": 10, "minimum": 5, "maximum": 100 },
+    "financialScore": { "normalization": 42, "minimum": 5, "maximum": 100 },
+    "waterScore": { "baseAtFeasible": 70, "shortfallMultiplier": 70, "headroomCap": 0.6, "headroomMultiplier": 45, "minimum": 18, "maximum": 98 },
+    "resilience": { "base": 84, "fertilityBaseline": 0.9, "fertilityMultiplier": 130, "waterPenalty": 0.06, "headroomMultiplier": 8, "minimum": 30, "maximum": 98 },
+    "biodiversityScore": { "multiplier": 0.97, "minimum": 20, "maximum": 98 },
+    "risk": { "minimum": 8, "maximum": 98 },
+    "riskLabelThresholds": { "low": 10, "lowMedium": 20, "medium": 30, "mediumHigh": 40 },
+    "dataConfidence": { "highReferenceWeight": 2, "mediumReferenceWeight": 1, "highCoverageShare": 1.5, "mediumReferenceMinimum": 1 },
+    "inputBounds": { "minimumAreaAcres": 1, "maximumAreaAcres": 500, "minimumBudgetLakhs": 0, "maximumBudgetLakhs": 500 },
+    "outcomeAdjustments": { "waterScarcityAvailabilityMultiplier": 0.82, "feasibleAvailabilityMultiplier": 1.15, "riskLabelIndexMultiplier": 10, "riskSafetyOffset": 8, "riskSafetySensitivityMultiplier": 0.2, "stressFertilityScenarioInput": 0.94 },
+    "recommendation": { "strongCarbonScore": 80, "financialAlignmentScore": 72, "lowWaterFitScore": 60, "returnFocusWaterFitScore": 72, "waterConstraintMultiplier": 1.12, "worstCaseViabilityScore": 58, "worstCaseSafetyScore": 62 },
+    "goalWeights": {
+      "carbon": { "carbon": 0.3, "financial": 0.12, "water": 0.16, "resilience": 0.16, "bio": 0.14, "risk": 0.12 },
+      "return": { "carbon": 0.12, "financial": 0.3, "water": 0.14, "resilience": 0.14, "bio": 0.12, "risk": 0.18 },
+      "balanced": { "carbon": 0.2, "financial": 0.2, "water": 0.15, "resilience": 0.16, "bio": 0.14, "risk": 0.15 }
+    },
+    "riskPenalty": { "low": 0, "low-medium": 8, "medium": 16, "medium-high": 26, "high": 38 }
+  },
+  "speciesScenarioAssumptions": [
+    {
+      "speciesId": "mixed-native",
+      "scenarioSoilFit": ["Sandy Loam", "Clay", "Laterite", "Alluvial"],
+      "rainfallScreeningRangeMm": [650, 2600],
+      "waterIndexPerAcre": 0.4,
+      "carbonCoefficientTco2PerAcre": 34,
+      "growthMultiplier": 0.92,
+      "financial": { "establishmentCostLakhsPerAcre": 0.3, "maintenanceCostLakhsPerAcreYear": 0.08, "revenueLakhsPerAcreHorizon": 0.5, "revenueFactor": 0.7 },
+      "riskSensitivity": "low",
+      "biodiversityHeuristic": 96
+    },
+    {
+      "speciesId": "teak",
+      "scenarioSoilFit": ["Sandy Loam", "Alluvial"],
+      "rainfallScreeningRangeMm": [850, 2500],
+      "waterIndexPerAcre": 1.8,
+      "carbonCoefficientTco2PerAcre": 18,
+      "growthMultiplier": 0.8,
+      "financial": { "establishmentCostLakhsPerAcre": 0.95, "maintenanceCostLakhsPerAcreYear": 0.18, "revenueLakhsPerAcreHorizon": 3.4, "revenueFactor": 1.7 },
+      "riskSensitivity": "medium",
+      "biodiversityHeuristic": 55
+    },
+    {
+      "speciesId": "silver-oak",
+      "scenarioSoilFit": ["Sandy Loam", "Clay", "Laterite"],
+      "rainfallScreeningRangeMm": [900, 2400],
+      "waterIndexPerAcre": 1.5,
+      "carbonCoefficientTco2PerAcre": 22,
+      "growthMultiplier": 0.9,
+      "financial": { "establishmentCostLakhsPerAcre": 0.6, "maintenanceCostLakhsPerAcreYear": 0.12, "revenueLakhsPerAcreHorizon": 2.7, "revenueFactor": 1.45 },
+      "riskSensitivity": "low",
+      "biodiversityHeuristic": 66
+    },
+    {
+      "speciesId": "bamboo",
+      "scenarioSoilFit": ["Sandy Loam", "Clay", "Silty", "Alluvial"],
+      "rainfallScreeningRangeMm": [1000, 2800],
+      "waterIndexPerAcre": 2.4,
+      "carbonCoefficientTco2PerAcre": 28,
+      "growthMultiplier": 1,
+      "financial": { "establishmentCostLakhsPerAcre": 0.35, "maintenanceCostLakhsPerAcreYear": 0.1, "revenueLakhsPerAcreHorizon": 1.5, "revenueFactor": 1 },
+      "riskSensitivity": "medium",
+      "biodiversityHeuristic": 72
+    },
+    {
+      "speciesId": "mango",
+      "scenarioSoilFit": ["Sandy Loam", "Laterite", "Alluvial"],
+      "rainfallScreeningRangeMm": [600, 2000],
+      "waterIndexPerAcre": 3.2,
+      "carbonCoefficientTco2PerAcre": 8,
+      "growthMultiplier": 0.72,
+      "financial": { "establishmentCostLakhsPerAcre": 0.85, "maintenanceCostLakhsPerAcreYear": 0.3, "revenueLakhsPerAcreHorizon": 4.2, "revenueFactor": 1.9 },
+      "riskSensitivity": "high",
+      "biodiversityHeuristic": 48
+    },
+    {
+      "speciesId": "coconut",
+      "scenarioSoilFit": ["Sandy Loam", "Silty", "Laterite", "Alluvial"],
+      "rainfallScreeningRangeMm": [1200, 2800],
+      "waterIndexPerAcre": 4,
+      "carbonCoefficientTco2PerAcre": 12,
+      "growthMultiplier": 0.78,
+      "financial": { "establishmentCostLakhsPerAcre": 1.1, "maintenanceCostLakhsPerAcreYear": 0.32, "revenueLakhsPerAcreHorizon": 3.6, "revenueFactor": 1.6 },
+      "riskSensitivity": "high",
+      "biodiversityHeuristic": 52
+    },
+    {
+      "speciesId": "cashew",
+      "scenarioSoilFit": ["Sandy Loam", "Laterite", "Alluvial"],
+      "rainfallScreeningRangeMm": [800, 2200],
+      "waterIndexPerAcre": 1.1,
+      "carbonCoefficientTco2PerAcre": 20,
+      "growthMultiplier": 0.68,
+      "financial": { "establishmentCostLakhsPerAcre": 0.5, "maintenanceCostLakhsPerAcreYear": 0.12, "revenueLakhsPerAcreHorizon": 2.4, "revenueFactor": 1.5 },
+      "riskSensitivity": "low",
+      "biodiversityHeuristic": 70
+    },
+    {
+      "speciesId": "eucalyptus",
+      "scenarioSoilFit": ["Sandy Loam", "Laterite"],
+      "rainfallScreeningRangeMm": [700, 1800],
+      "waterIndexPerAcre": 3,
+      "carbonCoefficientTco2PerAcre": 26,
+      "growthMultiplier": 1,
+      "financial": { "establishmentCostLakhsPerAcre": 0.25, "maintenanceCostLakhsPerAcreYear": 0.09, "revenueLakhsPerAcreHorizon": 2, "revenueFactor": 1.2 },
+      "riskSensitivity": "high",
+      "biodiversityHeuristic": 40
+    }
+  ],
+  "strategyBlueprints": [
+    {
+      "id": "carbon-forest",
+      "code": "A",
+      "key": "carbon",
+      "name": "Carbon Forest",
+      "tagline": "Prioritise a higher modeled long-horizon carbon estimate using a mixed forestry scenario.",
+      "mix": [{ "id": "mixed-native", "share": 0.55 }, { "id": "bamboo", "share": 0.25 }, { "id": "silver-oak", "share": 0.2 }]
+    },
+    {
+      "id": "balanced-agroforestry",
+      "code": "B",
+      "key": "balanced",
+      "name": "Balanced Agroforestry",
+      "tagline": "Balance modeled carbon, finance, water feasibility and species-mix diversity in one scenario.",
+      "mix": [{ "id": "mixed-native", "share": 0.35 }, { "id": "silver-oak", "share": 0.2 }, { "id": "cashew", "share": 0.2 }, { "id": "bamboo", "share": 0.15 }, { "id": "mango", "share": 0.1 }]
+    },
+    {
+      "id": "high-value-plantation",
+      "code": "C",
+      "key": "return",
+      "name": "High-Value Plantation",
+      "tagline": "Prioritise the modeled financial scenario, with higher modeled water and market sensitivity.",
+      "mix": [{ "id": "mango", "share": 0.3 }, { "id": "coconut", "share": 0.2 }, { "id": "teak", "share": 0.3 }, { "id": "silver-oak", "share": 0.1 }, { "id": "eucalyptus", "share": 0.1 }]
+    }
+  ],
+  "zoningScenarioAssumptions": {
+    "carbonCoefficientTco2PerAcre": 30,
+    "incomeFinancialCoefficientLakhsPerAcre": 2.9,
+    "carbonFinancialCoefficientLakhsPerAcre": 0.75,
+    "biodiversityFinancialCoefficientLakhsPerAcre": 0.4,
+    "incomeWaterIndexPerAcre": 3.3,
+    "carbonWaterIndexPerAcre": 1,
+    "biodiversityWaterIndexPerAcre": 0.6,
+    "waterAdjustment": 1.1,
+    "biodiversityCarbonContributionMultiplier": 0.8,
+    "biodiversity": { "biodiversityZone": 96, "carbonZone": 84, "conservationZone": 90, "incomeZone": 38 },
+    "risk": { "base": 10, "incomeAllocationSensitivity": 34, "lowSeverityBaseline": 6, "severityThreshold": 0.5 },
+    "fertilityScenarioInput": 0.9,
+    "fallbackFertilityScenarioInput": 0.5,
+    "feasibleAvailabilityMultiplier": 1.05,
+    "defaultAllocation": { "carbon": 50, "income": 30, "biodiversity": 10, "conservation": 10 }
+  },
+  "simulatorScenarioAssumptions": {
+    "baselineBudgetLakhs": 15,
+    "baselineCarbonPrice": 900,
+    "carbonBaselineAdjustment": 0.92,
+    "financialWaterBase": 0.9,
+    "financialWaterScale": 40,
+    "waterRequirementReductionScale": 70,
+    "prioritySpreadScale": 300,
+    "riskWaterSensitivity": 0.2,
+    "minimumCarbonEstimate": 10,
+    "minimumFinancialEstimate": 4
+  },
+  "stressScenarioAssumptions": [
+    { "name": "Normal", "icon": "Sun", "rainMul": 1, "carbonMul": 1, "returnMul": 1, "riskDelta": 0, "waterDemandMul": 1, "bioMul": 1, "severity": 0.12 },
+    { "name": "Drier Climate", "icon": "CloudRain", "rainMul": 0.72, "carbonMul": 0.9, "returnMul": 0.86, "riskDelta": 9, "waterDemandMul": 1.18, "bioMul": 0.92, "severity": 0.4 },
+    { "name": "Hotter Climate", "icon": "Thermometer", "rainMul": 0.9, "carbonMul": 0.84, "returnMul": 0.9, "riskDelta": 12, "waterDemandMul": 1.32, "bioMul": 0.9, "severity": 0.52 },
+    { "name": "Water Scarcity", "icon": "Droplet", "rainMul": 0.78, "carbonMul": 0.82, "returnMul": 0.78, "riskDelta": 18, "waterDemandMul": 1.5, "bioMul": 0.86, "severity": 0.68 },
+    { "name": "Heavy Rainfall", "icon": "Waves", "rainMul": 1.35, "carbonMul": 1.02, "returnMul": 0.96, "riskDelta": 6, "waterDemandMul": 0.95, "bioMul": 1.05, "severity": 0.45 }
+  ],
+  "worstCaseStressAssumption": { "label": "Illustrative Worst-Case Stress Test", "rainMul": 0.75, "waterAvailMul": 0.7, "carbonPriceMul": 0.8, "maintHike": 1.15, "riskDelta": 26 }
+}
